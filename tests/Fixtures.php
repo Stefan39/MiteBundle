@@ -78,4 +78,17 @@ final class Fixtures
             'created_at' => self::CREATED_AT, 'updated_at' => self::UPDATED_AT,
         ];
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function timeEntry(): array
+    {
+        return [
+            'id' => 101, 'minutes' => 90, 'date_at' => '2026-10-09', 'note' => 'Code review', 'billable' => true, 'locked' => false,
+            'revenue' => 12000.0, 'hourly_rate' => 8000, 'user_id' => 7, 'user_name' => 'Jane Doe',
+            'project_id' => 11, 'project_name' => 'Website', 'customer_id' => 31, 'customer_name' => 'Example Corp',
+            'service_id' => 21, 'service_name' => 'Development', 'created_at' => self::CREATED_AT, 'updated_at' => self::UPDATED_AT,
+        ];
+    }
 }
