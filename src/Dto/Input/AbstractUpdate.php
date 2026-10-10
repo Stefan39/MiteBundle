@@ -16,6 +16,11 @@ abstract class AbstractUpdate
     {
     }
 
+    public static function new(): static
+    {
+        return new static();
+    }
+
     /**
      * @return array<string, mixed>
      */

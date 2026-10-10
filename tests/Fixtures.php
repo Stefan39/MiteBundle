@@ -41,4 +41,15 @@ final class Fixtures
             'account_id' => 1, 'user_id' => null, 'created_at' => self::CREATED_AT, 'updated_at' => self::UPDATED_AT,
         ];
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function service(): array
+    {
+        return [
+            'id' => 21, 'name' => 'Development', 'note' => '', 'hourly_rate' => 9000, 'archived' => false, 'billable' => true,
+            'created_at' => self::CREATED_AT, 'updated_at' => self::UPDATED_AT,
+        ];
+    }
 }
