@@ -65,4 +65,17 @@ final class Fixtures
             'created_at' => self::CREATED_AT, 'updated_at' => self::UPDATED_AT,
         ];
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function project(): array
+    {
+        return [
+            'id' => 11, 'name' => 'Website', 'note' => 'Relaunch', 'customer_id' => 31, 'customer_name' => 'Example Corp',
+            'budget' => 6000, 'budget_type' => 'minutes', 'hourly_rate' => 8000, 'archived' => false,
+            'active_hourly_rate' => 'hourly_rate', 'hourly_rates_per_service' => [],
+            'created_at' => self::CREATED_AT, 'updated_at' => self::UPDATED_AT,
+        ];
+    }
 }
