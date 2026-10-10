@@ -23,7 +23,7 @@ final class TestKernel extends Kernel
      */
     public function __construct(private readonly array $miteConfig, private readonly array $extraServices = [])
     {
-        parent::__construct('test', true);
+        parent::__construct('test', false);
         // A failed container build keeps its cache lock for the rest of the process, so every kernel gets its own directory.
         $this->cacheDir = sys_get_temp_dir().'/mite-bundle-tests/'.uniqid('', true);
     }

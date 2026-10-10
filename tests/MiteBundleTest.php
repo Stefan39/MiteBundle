@@ -78,8 +78,42 @@ final class MiteBundleTest extends TestCase
         self::assertSame('Acme Inc.', $api->get()->title);
     }
 
+    private mixed $errorHandlerBefore = null;
+
+    private mixed $exceptionHandlerBefore = null;
+
+    protected function setUp(): void
+    {
+        $this->errorHandlerBefore = self::currentErrorHandler();
+        $this->exceptionHandlerBefore = self::currentExceptionHandler();
+    }
+
     protected function tearDown(): void
     {
         unset($_SERVER['MITE_TEST_DOMAIN'], $_SERVER['MITE_TEST_KEY'], $_SERVER['MITE_TEST_BAD_DOMAIN']);
+
+        // FrameworkBundle 7.4 registers Symfony's ErrorHandler on boot; PHPUnit flags leftover handlers as risky.
+        for ($i = 0; $i < 5 && self::currentExceptionHandler() !== $this->exceptionHandlerBefore; ++$i) {
+            restore_exception_handler();
+        }
+        for ($i = 0; $i < 5 && self::currentErrorHandler() !== $this->errorHandlerBefore; ++$i) {
+            restore_error_handler();
+        }
+    }
+
+    private static function currentErrorHandler(): mixed
+    {
+        $handler = set_error_handler(static fn (): bool => false);
+        restore_error_handler();
+
+        return $handler;
+    }
+
+    private static function currentExceptionHandler(): mixed
+    {
+        $handler = set_exception_handler(static function (\Throwable $e): void {});
+        restore_exception_handler();
+
+        return $handler;
     }
 }
