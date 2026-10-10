@@ -92,6 +92,43 @@ final class MiteClientTest extends ApiTestCase
         self::assertSame('https://acme.mite.de/time_entries.json?at=today', $response->header('location'));
     }
 
+    public function testRedirectIsNeverFollowedSoTheKeyStaysOnTheMiteHost(): void
+    {
+        $client = $this->client(new MockResponse('', ['http_code' => 302, 'response_headers' => ['Location' => 'https://evil.example.com/collect']]));
+
+        try {
+            $client->get('/account.json');
+            self::fail('Expected a MiteException for an unexpected redirect.');
+        } catch (MiteException $e) {
+            self::assertStringContainsString('redirect', $e->getMessage());
+        }
+        self::assertCount(1, $this->requests);
+        self::assertSame(0, $this->requests[0]['options']['max_redirects'] ?? null);
+    }
+
+    #[DataProvider('foreignPaths')]
+    public function testAbsoluteOrProtocolRelativePathIsRejectedBeforeAnyRequest(string $path): void
+    {
+        $client = $this->client();
+
+        try {
+            $client->get($path);
+            self::fail('Expected an InvalidArgumentException.');
+        } catch (InvalidArgumentException) {
+        }
+        self::assertSame([], $this->requests);
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function foreignPaths(): iterable
+    {
+        yield 'absolute url' => ['https://evil.example.com/x.json'];
+        yield 'protocol relative' => ['//evil.example.com/x.json'];
+        yield 'relative without slash' => ['account.json'];
+    }
+
     /**
      * @param class-string<MiteException> $expected
      */

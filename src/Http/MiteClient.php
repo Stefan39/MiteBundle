@@ -58,11 +58,11 @@ final class MiteClient
     }
 
     /**
-     * Sends a GET request and returns 3xx responses instead of following them.
+     * Sends a GET request and returns a 3xx response as a result instead of treating it as an error.
      */
     public function getWithoutRedirect(string $path): MiteResponse
     {
-        return $this->request('GET', $path, maxRedirects: 0);
+        return $this->request('GET', $path, redirectIsResult: true);
     }
 
     /**
@@ -93,9 +93,15 @@ final class MiteClient
      * @param array<string, string|list<string>> $query
      * @param array<string, mixed>|null          $body
      */
-    private function request(string $method, string $path, array $query = [], ?array $body = null, int $maxRedirects = 20): MiteResponse
+    private function request(string $method, string $path, array $query = [], ?array $body = null, bool $redirectIsResult = false): MiteResponse
     {
-        $options = ['max_redirects' => $maxRedirects];
+        // Only paths on the account host: a URL or "//host" would send the API key elsewhere.
+        if (1 !== preg_match('#^/(?!/)#', $path)) {
+            throw new InvalidArgumentException(\sprintf('Expected an absolute path on the mite host such as "/account.json", got "%s".', $path));
+        }
+
+        // Redirects are never followed: Symfony HttpClient would forward the X-MiteApiKey header to the target host.
+        $options = ['max_redirects' => 0];
         if (null !== $body) {
             $options['json'] = $body;
         }
@@ -111,6 +117,9 @@ final class MiteClient
 
         if ($status >= 400) {
             throw self::errorFor($status, $content);
+        }
+        if ($status >= 300 && !$redirectIsResult) {
+            throw new MiteException(\sprintf('mite redirected the request to "%s"; redirects are not followed so the API key stays on the mite host.', $headers['location'][0] ?? 'unknown'), $status);
         }
 
         return new MiteResponse($status, self::decode($content), $headers);
