@@ -30,4 +30,15 @@ final class Fixtures
             'role' => 'admin', 'language' => 'en', 'created_at' => self::CREATED_AT, 'updated_at' => self::UPDATED_AT,
         ];
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function bookmark(): array
+    {
+        return [
+            'id' => 3, 'name' => 'Website this week', 'query' => 'project_id=11&at=this_week', 'type' => 'time_entries',
+            'account_id' => 1, 'user_id' => null, 'created_at' => self::CREATED_AT, 'updated_at' => self::UPDATED_AT,
+        ];
+    }
 }
