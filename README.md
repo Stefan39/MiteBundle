@@ -2,6 +2,7 @@
 
 > A Symfony bundle for the mite time tracking API: typed services and DTOs for every resource, configured with two env vars.
 
+[![CI](https://github.com/Stefan39/MiteBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/Stefan39/MiteBundle/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen)](phpstan.neon)
 

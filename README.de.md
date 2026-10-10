@@ -2,6 +2,7 @@
 
 > Ein Symfony-Bundle für die Zeiterfassung mite: typisierte Services und DTOs für jede API-Ressource, konfiguriert mit zwei Umgebungsvariablen.
 
+[![CI](https://github.com/Stefan39/MiteBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/Stefan39/MiteBundle/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%208-brightgreen)](phpstan.neon)
 
