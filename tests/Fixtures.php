@@ -11,4 +11,23 @@ final class Fixtures
 {
     public const CREATED_AT = '2026-01-02T10:00:00+01:00';
     public const UPDATED_AT = '2026-03-04T11:30:00+01:00';
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function account(): array
+    {
+        return ['id' => 1, 'name' => 'acme', 'title' => 'Acme Inc.', 'currency' => 'EUR', 'created_at' => self::CREATED_AT, 'updated_at' => self::UPDATED_AT];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public static function user(): array
+    {
+        return [
+            'id' => 7, 'name' => 'Jane Doe', 'email' => 'jane@example.com', 'note' => '', 'archived' => false,
+            'role' => 'admin', 'language' => 'en', 'created_at' => self::CREATED_AT, 'updated_at' => self::UPDATED_AT,
+        ];
+    }
 }
