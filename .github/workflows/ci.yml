@@ -27,6 +27,8 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: pcov
+          # PHPUnit 13 counts assert() lines as executable; the production php.ini compiles them out.
+          ini-values: zend.assertions=1
       - uses: ramsey/composer-install@v3
         with:
           dependency-versions: ${{ matrix.dependencies }}
